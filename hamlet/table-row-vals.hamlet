@@ -1,0 +1,6 @@
+$forall val <- vals
+    $if isEmptyCell val
+        <td .yesod-admin-listing.values.empty> N/A
+    $else
+        <td .yesod-admin-listing.values.value>
+            #{toSinglePiece (toPersistValue val)}

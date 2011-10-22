@@ -8,7 +8,12 @@ Maintainer:          yairchu@gmail.com
 Category:            Web
 Build-type:          Simple
 Cabal-version:       >=1.2
-Extra-source-files: cassius/yesod-admin-crud.css
+Extra-source-files: cassius/yesod-admin-crud.css,
+                    hamlet/delete-row.hamlet,
+                    hamlet/edit-row.hamlet,
+                    hamlet/listing.hamlet,
+                    hamlet/table-header.hamlet,
+                    hamlet/table-row-vals.hamlet
 Library
   -- Modules exported by the library.
   Exposed-modules: Yesod.Admin.Crud

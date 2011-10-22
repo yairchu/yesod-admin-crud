@@ -1,0 +1,12 @@
+<tr .yesod-admin-listing.title>
+    <th colspan=#{numCols}>
+        #{title}
+<tr .yesod-admin-listing.headers>
+    <th .yesod-admin-listing.headers>
+        Key
+    $forall col <- colNames
+        <th .yesod-admin-listing.headers>
+            #{col}
+    $if hasActions
+        <th colspan=#{numActions} .yesod-admin-listing.headers>
+            Actions

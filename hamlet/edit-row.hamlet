@@ -1,0 +1,14 @@
+<form method=post action=@{adminRoute (EditR table key)}>
+    <table .yesod-admin-listing>
+        #{tableHeader table cols 0}
+        <tr .yesod-admin-listing.values>
+            <td .yesod-admin-listing.values.key>
+                #{key}
+            $forall val <- zip cols item
+                <td .yesod-admin-listing.values.key>
+                    <textarea name="#{fst val}" rows=1 cols=#{max 10 (Text.length (cellText val))} .yesod-admin-listing.values.value.new-row>
+                        #{cellText val}
+    <a href=@{adminRoute ShowR}>
+        Cancel, Oops..
+    <br>
+    <input type=submit value="Update Item.">

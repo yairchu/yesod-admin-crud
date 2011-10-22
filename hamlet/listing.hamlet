@@ -1,0 +1,22 @@
+<table .yesod-admin-listing>
+    #{tableHeader title colNames 2}
+    $forall item <- items
+        <tr .yesod-admin-listing.values>
+            <td .yesod-admin-listing.values.key>
+                #{toSinglePiece (fst item)}
+            #{tableRowValues (snd item)}
+            <td .yesod-admin-listing.values.action.edit>
+                <form method=get action=@{adminRoute (EditR entity (toSinglePiece (fst item)))}>
+                    <input type=submit value="Edit" .yesod-admin-listing.values.action.edit>
+            <td .yesod-admin-listing.values.action.delete>
+                <form method=get action=@{adminRoute (DeleteR entity (toSinglePiece (fst item)))}>
+                    <input type=submit value="Delete" .yesod-admin-listing.values.action.delete>
+    <form method=post action=@{adminRoute (AddR entity)}>
+        <tr .yesod-admin-listing.add-row>
+            <td .yesod-admin-listing.values.key.new-row>
+                New:
+            $forall col <- colNames
+                <td .yesod-admin-listing.values.value.new-row>
+                    <textarea name="#{col}" rows=1 cols=10 .yesod-admin-listing.values.value.new-row>
+            <td colspan=2 onclick="add_#{entity}()" id="add-#{entity}" .yesod-admin-listing.values.action.add>
+                <input type=submit value="Add" .yesod-admin-listing.values.action.add>

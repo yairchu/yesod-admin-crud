@@ -11,7 +11,7 @@ import Language.Haskell.TH.Syntax
 
 import Database.Persist.Base (EntityDef(..), SomePersistField(..), PersistValue(..), ColumnDef(columnName))
 import Text.Cassius (cassiusFile)
-import Text.Hamlet (shamlet)
+import Text.Hamlet (shamletFile)
 import Yesod
 
 data Admin = Admin
@@ -60,33 +60,14 @@ genericIntercalate _ [] = mempty
 genericIntercalate sep (x : xs) = mconcat (x : map (mappend sep) xs)
 
 tableHeader :: String -> [String] -> Int -> Html
-tableHeader title colNames numActions = [shamlet|
-    <tr .yesod-admin-listing.title>
-        <th colspan=#{numCols}>
-            #{title}
-    <tr .yesod-admin-listing.headers>
-        <th .yesod-admin-listing.headers>
-            Key
-        $forall col <- colNames
-            <th .yesod-admin-listing.headers>
-                #{col}
-        $if hasActions
-            <th colspan=#{numActions} .yesod-admin-listing.headers>
-                Actions
-    |]
+tableHeader title colNames numActions =
+    $(shamletFile "hamlet/table-header.hamlet")
     where
         hasActions = numActions > 0
         numCols = 1 + length colNames + numActions
 
 tableRowValues :: [SomePersistField] -> Html
-tableRowValues vals = [shamlet|
-    $forall val <- vals
-        $if isEmptyCell val
-            <td .yesod-admin-listing.values.empty> N/A
-        $else
-            <td .yesod-admin-listing.values.value>
-                #{toSinglePiece (toPersistValue val)}
-    |]
+tableRowValues vals = $(shamletFile "hamlet/table-row-vals.hamlet")
 
 isEmptyCell :: PersistField a => a -> Bool
 isEmptyCell = (PersistNull ==) . toPersistValue
@@ -102,31 +83,8 @@ getShowR = do
         stylesheet
         mapM_ (showTable adminRoute) tables
     where
-        showTable adminRoute (entity, colNames, items) = do
-            [whamlet|
-                <table .yesod-admin-listing>
-                    #{tableHeader title colNames 2}
-                    $forall item <- items
-                        <tr .yesod-admin-listing.values>
-                            <td .yesod-admin-listing.values.key>
-                                #{toSinglePiece (fst item)}
-                            #{tableRowValues (snd item)}
-                            <td .yesod-admin-listing.values.action.edit>
-                                <form method=get action=@{adminRoute (EditR entity (toSinglePiece (fst item)))}>
-                                    <input type=submit value="Edit" .yesod-admin-listing.values.action.edit>
-                            <td .yesod-admin-listing.values.action.delete>
-                                <form method=get action=@{adminRoute (DeleteR entity (toSinglePiece (fst item)))}>
-                                    <input type=submit value="Delete" .yesod-admin-listing.values.action.delete>
-                    <form method=post action=@{adminRoute (AddR entity)}>
-                        <tr .yesod-admin-listing.add-row>
-                            <td .yesod-admin-listing.values.key.new-row>
-                                New:
-                            $forall col <- colNames
-                                <td .yesod-admin-listing.values.value.new-row>
-                                    <textarea name="#{col}" rows=1 cols=10 .yesod-admin-listing.values.value.new-row>
-                            <td colspan=2 onclick="add_#{entity}()" id="add-#{entity}" .yesod-admin-listing.values.action.add>
-                                <input type=submit value="Add" .yesod-admin-listing.values.action.add>
-                |]
+        showTable adminRoute (entity, colNames, items) =
+            $(whamletFile "hamlet/listing.hamlet")
             where
                 title = entity ++ " Table"
 
@@ -138,22 +96,7 @@ getEditR table key = do
     adminRoute <- getRouteToMaster
     defaultLayout $ do
         stylesheet
-        [whamlet|
-            <form method=post action=@{adminRoute (EditR table key)}>
-                <table .yesod-admin-listing>
-                    #{tableHeader table cols 0}
-                    <tr .yesod-admin-listing.values>
-                        <td .yesod-admin-listing.values.key>
-                            #{key}
-                        $forall val <- zip cols item
-                            <td .yesod-admin-listing.values.key>
-                                <textarea name="#{fst val}" rows=1 cols=#{max 10 (Text.length (cellText val))} .yesod-admin-listing.values.value.new-row>
-                                    #{cellText val}
-                <a href=@{adminRoute ShowR}>
-                    Cancel, Oops..
-                <br>
-                <input type=submit value="Update Item.">
-            |]
+        $(whamletFile "hamlet/edit-row.hamlet")
     where
         cellText (_, cell) = if isEmptyCell cell then mempty else toSinglePiece (toPersistValue cell)
 
@@ -165,19 +108,7 @@ getDeleteR table key = do
     adminRoute <- getRouteToMaster
     defaultLayout $ do
         stylesheet
-        [whamlet|
-            Are you sure you want to delete this item: <br>
-            <table .yesod-admin-listing>
-                #{tableHeader table cols 0}
-                <tr .yesod-admin-listing.values>
-                    <td .yesod-admin-listing.values.key>
-                        #{key}
-                    #{tableRowValues item}
-            <a href=@{adminRoute ShowR}>
-                Cancel, Oops..
-            <form method=post action=@{adminRoute (DeleteR table key)}>
-                <input type=submit value="Yes, Delete.">
-            |]
+        $(whamletFile "hamlet/delete-row.hamlet")
 
 directHome :: YesodAdmin master => GHandler Admin master ()
 directHome = do
