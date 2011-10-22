@@ -15,15 +15,10 @@ Extra-source-files: cassius/yesod-admin-crud.css,
                     hamlet/table-header.hamlet,
                     hamlet/table-row-vals.hamlet
 Library
-  -- Modules exported by the library.
   Exposed-modules: Yesod.Admin.Crud
-  
-  -- Packages needed in order to build this package.
+  Other-modules: Yesod.Admin.Crud.Handlers
+                 Yesod.Admin.Crud.TH
+                 Yesod.Admin.Crud.TableFuncs
+                 Yesod.Admin.Crud.Type
   Build-depends: base, template-haskell, text, yesod >= 0.9, hamlet >= 0.10, shakespeare-css >= 0.10, persistent >= 0.6
-  
-  -- Modules not exported by this package.
-  -- Other-modules:       
-  
-  -- Extra tools (e.g. alex, hsc2hs, ...) needed to build the source.
-  -- Build-tools:         
-  
+  ghc-options: -Wall
