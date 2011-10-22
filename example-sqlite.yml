@@ -1,0 +1,10 @@
+Default: &defaults
+  database: example.sqlite3
+  poolsize: 10
+
+Development:
+  <<: *defaults
+
+Test:
+  database: example_test.sqlite3
+  <<: *defaults

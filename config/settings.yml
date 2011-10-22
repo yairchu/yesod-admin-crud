@@ -1,0 +1,16 @@
+Default: &defaults
+  host: "localhost"
+  port: 3000
+
+Development:
+  <<: *defaults
+
+Test:
+  <<: *defaults
+
+Staging:
+  <<: *defaults
+
+Production:
+  approot: "http://www.example.com"
+  <<: *defaults

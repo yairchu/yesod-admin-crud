@@ -1,0 +1,50 @@
+.yesod-admin-listing
+    border: 1px solid black
+    margin: 10px
+    color: black
+    background: white
+
+td th tr .yesod-admin-listing
+    border: 1px solid black
+
+.yesod-admin-listing.values.value.new-row
+    text-align: left
+    margin: 0
+    padding: 0
+    min-width: 100%
+    max-width: 100%
+    box-sizing: border-box
+
+.yesod-admin-listing.values.new-row
+    text-align: center
+
+.yesod-admin-listing.values.action
+    text-align: center
+    font-weight: bold
+
+.yesod-admin-listing.title
+    background: #dde
+
+.yesod-admin-listing.headers
+    background: #eef
+
+.yesod-admin-listing.values.key
+    text-align: center
+    font-weight: bold
+
+.yesod-admin-listing.values.empty
+    background: #fee
+    text-align: center
+
+.yesod-admin-listing.values.action
+    background: #eee
+    margin: 0
+    padding: 0
+    min-width: 100%
+    max-width: 100%
+
+.yesod-admin-listing.values.action:hover
+    background: #cfc
+
+.yesod-admin-listing.values.action.delete:hover
+    background: #fcc

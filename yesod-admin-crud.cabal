@@ -1,0 +1,24 @@
+Name:                yesod-admin-crud
+Version:             0.1
+Synopsis:            Admin CRUD interface for Yesod
+License:             BSD3
+License-file:        LICENSE
+Author:              Yair Chuchem
+Maintainer:          yairchu@gmail.com
+Category:            Web
+Build-type:          Simple
+Cabal-version:       >=1.2
+Extra-source-files: cassius/yesod-admin-crud.css
+Library
+  -- Modules exported by the library.
+  Exposed-modules: Yesod.Admin.Crud
+  
+  -- Packages needed in order to build this package.
+  Build-depends: base, template-haskell, text, yesod >= 0.9, hamlet >= 0.10, shakespeare-css >= 0.10, persistent >= 0.6
+  
+  -- Modules not exported by this package.
+  -- Other-modules:       
+  
+  -- Extra tools (e.g. alex, hsc2hs, ...) needed to build the source.
+  -- Build-tools:         
+  
