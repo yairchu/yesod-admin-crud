@@ -14,7 +14,7 @@ mkYesodAdmin :: [EntityDef] -> Q [Dec]
 mkYesodAdmin defs =
     return [ InstanceD context (AppT (ConT ''YesodAdmin) master) body ]
     where
-        context = [ClassP ''YesodAdminReqs [master]] ++ map singlePiece defs
+        context = ClassP ''YesodAdminReqs [master] : map singlePiece defs
         master = VarT (mkName "master")
         singlePiece def = ClassP ''SinglePiece [foldl1 AppT [ConT ''Key, AppT (ConT ''YesodPersistBackend) master, ConT . mkName $ entityName def]]
         body =
