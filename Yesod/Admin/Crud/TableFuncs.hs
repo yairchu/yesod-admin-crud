@@ -1,6 +1,8 @@
 {-# LANGUAGE FlexibleContexts #-}
 
-module Yesod.Admin.Crud.TableFuncs  (TableFuncs(..), tableFuncs) where
+module Yesod.Admin.Crud.TableFuncs (TableFuncs(..), tableFuncs) where
+
+import Yesod.Admin.Crud.Type (YesodAdminReqs)
 
 import Data.Maybe (fromJust)
 import Data.String (IsString(fromString))
@@ -9,7 +11,7 @@ import Data.Text (Text)
 import Database.Persist.Base (
     EntityDef(..), ColumnDef(columnName), Key, PersistBackend, PersistEntity(..), PersistValue(..), SelectOpt(LimitTo), SomePersistField(..),
     delete, entityDef, get, insert, replace, selectList, toPersistValue)
-import Yesod (GGHandler, GHandler, SinglePiece(..), Yesod, YesodPersist(..), lookupPostParam, runDB)
+import Yesod (GHandler, SinglePiece(..), YesodPersist(..), lookupPostParam, runDB)
 
 data TableFuncs sub master = TableFuncs
     { getRow :: Text -> GHandler sub master [SomePersistField]
@@ -20,7 +22,10 @@ data TableFuncs sub master = TableFuncs
     , tableDef :: EntityDef
     }
 
-tableFuncs :: (PersistEntity v, Yesod master, YesodPersist master, PersistBackend (YesodPersistBackend master) (GGHandler sub master IO), SinglePiece (Key (YesodPersistBackend master) v)) => v -> GHandler sub master (TableFuncs sub master)
+tableFuncs ::
+    ( YesodAdminReqs sub master, PersistEntity v, SinglePiece (Key (YesodPersistBackend master) v)
+    ) =>
+    v -> GHandler sub master (TableFuncs sub master)
 tableFuncs dummy =
     return TableFuncs
     { getRow = fmap (toPersistFields . fromJust) . runDB . get . keyFromText

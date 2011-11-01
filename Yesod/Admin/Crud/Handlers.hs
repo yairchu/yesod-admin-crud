@@ -15,8 +15,9 @@ import Yesod (
     GHandler, GWidget, Html, RedirectType(RedirectTemporary), RenderRoute(..), RepHtml, Yesod, YesodDispatch(..),
     addCassius, defaultLayout, getRouteToMaster, mkYesodSub, parseRoutes, redirect, toSinglePiece, whamletFile)
 
+import Yesod.Admin.Crud.Class (YesodAdmin(..))
 import Yesod.Admin.Crud.TableFuncs (TableFuncs(..))
-import Yesod.Admin.Crud.Type (Admin, YesodAdmin(..))
+import Yesod.Admin.Crud.Type (Admin)
 
 mkYesodSub "Admin" [ClassP ''YesodAdmin [VarT (mkName "master")]] [parseRoutes|
 / ShowR GET
