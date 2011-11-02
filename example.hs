@@ -6,6 +6,7 @@ import Database.Persist.Sqlite
 import Data.Text
 import Yesod
 import Yesod.Admin.Crud
+import Yesod.Admin.User
 import Yesod.Default.Config
 import Yesod.Default.Main
 
@@ -21,6 +22,9 @@ mkYesod "Example" [parseRoutes|
 
 instance Yesod Example where
     approot _ = "http://localhost:3000"
+
+instance YesodAdminUser Example where
+    isAdminUser = return True
 
 share [mkPersist sqlSettings, mkMigrate "migrateAll", mkYesodAdmin ''Example] [persist|
 ExampleA

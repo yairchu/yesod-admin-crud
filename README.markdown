@@ -4,6 +4,5 @@ CRUD means Create, Read, Update, Delete. This module provides access to the site
 
 TODO:
 
-* Giving admin interface access only to admins. 
 * Make it look nicer.
 * Selecting which part of the table to see if it has many rows. 
