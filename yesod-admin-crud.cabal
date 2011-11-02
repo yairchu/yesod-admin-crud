@@ -16,7 +16,9 @@ Extra-source-files: cassius/yesod-admin-crud.css,
                     hamlet/table-row-vals.hamlet
 Library
   Exposed-modules: Yesod.Admin.Crud
-  Other-modules: Yesod.Admin.Crud.Handlers
+                   Yesod.Admin.User
+  Other-modules: Yesod.Admin.Crud.Class
+                 Yesod.Admin.Crud.Handlers
                  Yesod.Admin.Crud.TH
                  Yesod.Admin.Crud.TableFuncs
                  Yesod.Admin.Crud.Type
