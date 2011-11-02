@@ -22,7 +22,7 @@ mkYesod "Example" [parseRoutes|
 instance Yesod Example where
     approot _ = "http://localhost:3000"
 
-share [mkPersist sqlSettings, mkMigrate "migrateAll", mkYesodAdmin] [persist|
+share [mkPersist sqlSettings, mkMigrate "migrateAll", mkYesodAdmin ''Example] [persist|
 ExampleA
     aa Text
     ab Text Maybe
